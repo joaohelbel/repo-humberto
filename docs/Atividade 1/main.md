@@ -4,11 +4,17 @@
 O dataset cannabis.csv reúne informações de diferentes cepas (strains) de cannabis, contendo atributos descritivos e uma classe-alvo. As colunas utilizadas são:
 
  -- Strain (texto): nome da cepa.
+
  -- Type (categórica – alvo): classe da cepa (indica, sativa ou hybrid).
+
  -- Rating (numérica): avaliação média da cepa.
+
  -- Effects (texto): lista de efeitos relatados (ex.: Relaxed, Happy).
+
  -- Flavor (texto): sabores/aromas associados (ex.: Citrus, Earthy).
+
  -- Description (texto longo): descrição livre — não utilizada no modelo para reduzir ruído.
+ 
 
 ## Propósito do projeto
 Construir um classificador de Árvore de Decisão para prever o Type (indica/sativa/hybrid) a partir dos demais atributos, avaliando o desempenho do modelo conforme a rubrica do exercício.
