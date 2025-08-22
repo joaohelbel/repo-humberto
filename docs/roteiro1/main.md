@@ -1,64 +1,83 @@
+# Roteiro 1 — Decision Tree (cannabis.csv)
+
 ## Objetivo
+O dataset cannabis.csv reúne informações de diferentes cepas (strains) de cannabis, contendo atributos descritivos e uma classe-alvo. As colunas utilizadas são:
 
-Aqui vai o objetivo macro do roteiro. Por que estamos fazendo o que estamos fazendo?
+ -- Strain (texto): nome da cepa.
+ -- Type (categórica – alvo): classe da cepa (indica, sativa ou hybrid).
+ -- Rating (numérica): avaliação média da cepa.
+ -- Effects (texto): lista de efeitos relatados (ex.: Relaxed, Happy).
+ -- Flavor (texto): sabores/aromas associados (ex.: Citrus, Earthy).
+ -- Description (texto longo): descrição livre — não utilizada no modelo para reduzir ruído.
 
-## Montagem do Roteiro
+## Propósito do projeto
+Construir um classificador de Árvore de Decisão para prever o Type (indica/sativa/hybrid) a partir dos demais atributos, avaliando o desempenho do modelo conforme a rubrica do exercício.
 
-Os pontos "tarefas" são os passos que devem ser seguidos para a realização do roteiro. Eles devem ser claros e objetivos. Com evidências claras de que foram realizados.
+## Como o dataset foi usado
+Exploração: análise da distribuição das classes (Type), estatísticas de Rating e visualizações (histograma/contagem).
 
-### Tarefa 1
+## Pré-processamento:
 
-Instalando o MAAS:
+ -- Padronização de Rating (vírgula → ponto; conversão para float).
 
-<!-- termynal -->
+ -- Tratamento de ausentes (textos vazios onde necessário).
 
-``` bash
-sudo snap install maas --channel=3.5/Stable
-```
+ -- Construção de uma variável textual text_all concatenando Effects + Flavor + Strain.
 
-![Tela do Dashboard do MAAS](./maas.png)
-/// caption
-Dashboard do MAAS
-///
+ -- Vetorização de text_all com TF-IDF (uni + bigramas) e escala em Rating.
 
-Conforme ilustrado acima, a tela inicial do MAAS apresenta um dashboard com informações sobre o estado atual dos servidores gerenciados. O dashboard é composto por diversos painéis, cada um exibindo informações sobre um aspecto específico do ambiente gerenciado. Os painéis podem ser configurados e personalizados de acordo com as necessidades do usuário.
+ -- Description foi descartada por ser texto longo e pouco estruturado, com baixa relação sinal/ruído.
 
-### Tarefa 2
+ -- Divisão dos dados: train/test split estratificado (70/30) para manter o balanceamento das classes.
 
-## App
+ -- Treinamento: DecisionTreeClassifier(criterion="gini", random_state=42) dentro de um Pipeline que aplica o pré-processamento e treina o modelo em sequência.
 
+ -- Avaliação: métricas de acurácia, precisão/recall/F1 por classe, matriz de confusão e visualização dos níveis iniciais da árvore para interpretação das regras.
 
+## Observações
 
-### Tarefa 1
+ -- O critério Gini foi adotado por padrão (cálculo mais leve e, na prática, resultados similares à entropia).
 
-### Tarefa 2
+## 1) Exploração dos Dados
+Distribuição da classe:
 
-Exemplo de diagrama
+![Class balance](./img/dist_classe.png)
 
-```mermaid
-architecture-beta
-    group api(cloud)[API]
+Histograma do `rating`:
 
-    service db(database)[Database] in api
-    service disk1(disk)[Storage] in api
-    service disk2(disk)[Storage] in api
-    service server(server)[Server] in api
+![Rating hist](./img/hist_rating.png)
 
-    db:L -- R:server
-    disk1:T -- B:server
-    disk2:T -- B:db
-```
+Estatísticas (`rating_describe.csv`) estão no repositório.
 
-[Mermaid](https://mermaid.js.org/syntax/architecture.html){:target="_blank"}
+## 2) Pré-processamento
+- `rating`: normalizado (vírgula → ponto) e escalado.
+- Textos concatenados em `text_all = effects + flavor + strain` e vetorizados com **TF-IDF**.
+- Remoção de linhas sem `Type`.
 
-## Questionário, Projeto ou Plano
+## 3) Split
+`train_test_split(test_size=0.30, random_state=42, stratify=y)`.
 
-Esse seção deve ser preenchida apenas se houver demanda do roteiro.
+## 4) Treinamento
+`DecisionTreeClassifier(criterion="gini")` dentro de um `Pipeline` com `ColumnTransformer`.
 
-## Discussões
+## 5) Avaliação
+Matriz de confusão:
 
-Quais as dificuldades encontradas? O que foi mais fácil? O que foi mais difícil?
+![Confusion Matrix](./img/matriz_confusao.png)
 
-## Conclusão
+Árvore (níveis iniciais):
 
-O que foi possível concluir com a realização do roteiro?
+![Árvore](./img/arvore.png)
+
+Relatório de classificação está em `classification_report.txt` (no repositório).
+
+## 6) Conclusões e Melhorias
+- Ajustar hiperparâmetros com `GridSearchCV` (`max_depth`, `min_samples_split`, `min_samples_leaf`).
+- Tratar stopwords/esparsidade específicas do domínio.
+- Comparar com **RandomForest** como baseline robusto.
+
+## Reprodutibilidade
+```bash
+pip install -r requirements.txt
+python src/arvore.py
+mkdocs serve -o
