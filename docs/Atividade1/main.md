@@ -62,28 +62,3 @@ Estatísticas (`rating_describe.csv`) estão no repositório.
 
 ## 3) Split
 `train_test_split(test_size=0.30, random_state=42, stratify=y)`.
-
-## 4) Treinamento
-`DecisionTreeClassifier(criterion="gini")` dentro de um `Pipeline` com `ColumnTransformer`.
-
-## 5) Avaliação
-Matriz de confusão:
-
-![Confusion Matrix](./img/matriz_confusao.png)
-
-Árvore (níveis iniciais):
-
-![Árvore](./img/arvore.png)
-
-Relatório de classificação está em `classification_report.txt` (no repositório).
-
-## 6) Conclusões e Melhorias
-- Ajustar hiperparâmetros com `GridSearchCV` (`max_depth`, `min_samples_split`, `min_samples_leaf`).
-- Tratar stopwords/esparsidade específicas do domínio.
-- Comparar com **RandomForest** como baseline robusto.
-
-## Reprodutibilidade
-```bash
-pip install -r requirements.txt
-python src/arvore.py
-mkdocs serve -o
