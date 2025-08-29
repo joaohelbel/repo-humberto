@@ -1,11 +1,10 @@
-Accuracy: 0.5381
+Accuracy: 0.9454
 
               precision    recall  f1-score   support
 
-      hybrid      0.583     0.617     0.600       358
-      indica      0.556     0.510     0.532       206
-      sativa      0.378     0.366     0.372       131
+           0      1.000     0.945     0.972     85295
+           1      0.028     0.892     0.054       148
 
-    accuracy                          0.538       695
-   macro avg      0.506     0.498     0.501       695
-weighted avg      0.536     0.538     0.537       695
+    accuracy                          0.945     85443
+   macro avg      0.514     0.919     0.513     85443
+weighted avg      0.998     0.945     0.970     85443
