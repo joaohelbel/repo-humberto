@@ -1,8 +1,8 @@
 site_name: Entrega do humberto
 site_author: Helbel, J.
-site_url: https://joaohelbel.github.io/repo-humberto
-repo_url: https://github.com/joaohelbel/repo-humberto
-repo_name: github/repo-humberto
+site_url: https://joaohelbel.github.io/joaohelbel.github.io
+repo_url: https://github.com/joaohelbel/joaohelbel.github.io
+repo_name: github/joaohelbel.github.io
 
 theme:
   name: material
